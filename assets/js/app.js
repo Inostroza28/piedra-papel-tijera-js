@@ -10,61 +10,91 @@ var papel = 1;
 var tijera = 2;
 
 var opciones = ["Piedra", "Papel", "Tijera"];
+var juegos = prompt("Bienvenido, jugaremos al piedra, papel o tijera ¿Cuantas veces quieres jugar?");
 
+var pointsJugador = 0;
+var pointsCPU = 0;
 
-var cpu = calculo(0,2);
+async function executeGame(){
 
-var jugador = prompt("¿Qué eliges?\nPiedra: 0\nPapel: 1\nTijera: 2", 0);
+    var cpu = calculo(0,2);
+    var jugador = prompt("¿Qué eliges?\nPiedra: 0\nPapel: 1\nTijera: 2", 0);
 
-alert("Tu jugaste " + opciones[jugador]);
-alert("La CPU jugó " + opciones[cpu]);
+    alert("Tu jugaste " + opciones[jugador]);
+    alert("La CPU jugó " + opciones[cpu]);
 
-if(jugador == piedra)
-{
-    if(cpu == piedra)
+    if(jugador == piedra)
     {
-        alert("El resultafo fue: empate.");
+        if(cpu == piedra)
+        {
+            alert("El resultado fue: empate.");
+        }
+        else if(cpu == papel)
+        {
+            alert("El resultado fue: perdiste. ");
+            pointsCPU++
+        }
+        else if(cpu == tijera)
+        {
+            alert("Felicidades el resultado fue: ganaste.");
+            pointsJugador++;
+        }
     }
-    else if(cpu == papel)
+    else if(jugador == papel)
     {
-        alert("El resultado fue: perdiste. ");
+        if(cpu == piedra)
+        {
+            alert("Felicidades el resultado fue: ganaste.")
+            pointsJugador++;
+        }
+        else if(cpu == papel)
+        {
+            alert("El resultado fue: empate.");
+        }
+        else if(cpu == tijera)
+        {
+            alert("El resultado fue: perdiste. ");
+            pointsCPU++;
+        }
     }
-    else if(cpu == tijera)
+    else if(jugador == tijera)
     {
-        alert("Felicidades el resultado fue: ganaste.");
+        if(cpu == piedra)
+        {
+            alert("El resultado fue: perdiste. ");
+            pointsCPU++;
+        }
+        else if(cpu == papel)
+        {
+            alert("Felicidades el resultado fue: ganaste.");
+            pointsJugador++;
+        }
+        else if(cpu == tijera)
+        {
+            alert("El resultado fue: empate.");
+            
+        }
+    }
+    else
+    {
+        alert("Por favor selecciona una opción valida.");
     }
 }
-else if(jugador == papel)
-{
-    if(cpu == piedra)
-    {
-        alert("Felicidades el resultado fue: ganaste.");
+
+async function executeForGame(){
+    for(i = 1; i <= juegos; i++){
+        await executeGame();
     }
-    else if(cpu == papel)
-    {
-        alert("El resultafo fue: empate.");
-    }
-    else if(cpu == tijera)
-    {
-        alert("El resultado fue: perdiste. ");
-    }
-}
-else if(jugador == tijera)
-{
-    if(cpu == piedra)
-    {
-        alert("El resultado fue: perdiste. ");
-    }
-    else if(cpu == papel)
-    {
-        alert("Felicidades el resultado fue: ganaste.");
-    }
-    else if(cpu == tijera)
-    {
-        alert("El resultafo fue: empate.");
+
+    if(pointsJugador == pointsCPU) {
+        alert("El resultado final termino en empate")
+    }else {
+        if(pointsJugador > pointsCPU){
+            alert("Felicidades ganaste !");
+        }else{
+            alert("Lastima! Perdiste...")
+        }
     }
 }
-else
-{
-    alert("Por favor selecciona una opción valida.");
-}
+
+executeForGame();
